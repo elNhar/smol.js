@@ -1,0 +1,89 @@
+// Variables
+$primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+$text-gray: #6b7280;
+$text-dark: #1f2937;
+$text-medium: #4b5563;
+
+// Mixins
+@mixin gradient-text {
+  background: $primary-gradient;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+// Reset
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+// Base styles
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 2rem;
+  background: $primary-gradient;
+  min-height: 100vh;
+}
+
+// Container
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 1rem;
+  padding: 3rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+// Typography
+h1 {
+  font-size: 3rem;
+  @include gradient-text;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: $text-gray;
+  font-size: 1.25rem;
+  margin-bottom: 3rem;
+}
+
+h2 {
+  margin-bottom: 1.5rem;
+  color: $text-dark;
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.25rem;
+  color: $text-medium;
+  margin-bottom: 1rem;
+}
+
+// Sections
+section {
+  margin-bottom: 3rem;
+
+  &.docs {
+    margin-top: 4rem;
+
+    h2 {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+  }
+}
+
+// Component containers
+.component-demo {
+  margin-bottom: 2rem;
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}

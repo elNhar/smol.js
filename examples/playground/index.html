@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>smol.js Playground</title>
+  <link rel="stylesheet" href="/src/styles.scss" />
+</head>
+
+<body>
+  <div class="container">
+    <h1>smol.js</h1>
+    <p class="subtitle">Minimal Web Component Library - Zero Dependencies</p>
+
+    <section>
+      <h2>🎮 Demo Components</h2>
+
+      <div class="component-demo">
+        <h3>Counter</h3>
+        <demo-counter></demo-counter>
+      </div>
+
+      <div class="component-demo">
+        <h3>Card</h3>
+        <demo-card title="Feature Card" variant="primary">
+          <p>Card with slots and variant support</p>
+        </demo-card>
+      </div>
+
+      <div class="component-demo">
+        <h3>Buttons</h3>
+        <div class="button-group">
+          <demo-button variant="primary">Primary</demo-button>
+          <demo-button variant="secondary">Secondary</demo-button>
+          <demo-button variant="danger">Danger</demo-button>
+        </div>
+      </div>
+    </section>
+
+    <section class="docs">
+      <h2>📚 Documentation</h2>
+
+      <doc-section category="Getting Started" title="What is smol.js?">
+        <p><strong>smol.js</strong> - Minimal Web Component framework with SSR support.</p>
+        <ul>
+          <li>✅ Only 3.05 KB gzipped</li>
+          <li>✅ Zero dependencies</li>
+          <li>✅ TypeScript-first</li>
+          <li>✅ SSR ready</li>
+        </ul>
+      </doc-section>
+
+      <doc-section category="Core API" title="Creating Components">
+        <p>Use <code>smolComponent()</code> to create components:</p>
+        <pre>import { smolComponent, html, css } from 'smol.js';
+
+const MyBtn = smolComponent({
+  tag: 'my-btn',
+  styles: css`button { padding: 1rem 2rem; }`,
+  template() {
+    return html`&lt;button&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/button&gt;`;
+  }
+});</pre>
+      </doc-section>
+
+      <doc-section category="Reactivity" title="Signals & State">
+        <h3>Signals</h3>
+        <pre>const count = smolSignal(0);
+count.value++;
+count.subscribe(() => console.log(count.value));</pre>
+
+        <h3>State</h3>
+        <pre>const user = smolState({ name: 'Alice' });
+user.name = 'Bob';</pre>
+      </doc-section>
+
+      <doc-section category="Templates" title="Event Handling">
+        <h3>Events</h3>
+        <pre>html`&lt;button @click=\${handler}&gt;Click&lt;/button&gt;`</pre>
+
+        <h3>Attributes</h3>
+        <pre>html`&lt;button ?disabled=\${isDisabled}&gt;Submit&lt;/button&gt;`</pre>
+      </doc-section>
+
+      <doc-section category="Lifecycle" title="Lifecycle Hooks">
+        <pre>smolComponent({
+  connected() { console.log('mounted'); },
+  disconnected() { console.log('unmounted'); },
+  attributeChanged(name, old, new) { }
+});</pre>
+      </doc-section>
+
+      <doc-section category="SSR" title="Server Rendering">
+        <pre>import { renderComponentToString } from 'smol.js';
+const html = renderComponentToString(MyBtn);</pre>
+      </doc-section>
+
+      <doc-section category="CLI" title="Commands">
+        <pre># Create component
+smol new component my-btn
+
+# Dev server
+smol dev
+
+# Build
+smol build --ssr</pre>
+      </doc-section>
+    </section>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>
