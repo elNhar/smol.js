@@ -11,6 +11,6 @@ smolComponent({
 
     template(ctx) {
         const title = ctx.element.getAttribute('title') || 'Hello World';
-        return template(html);
+        return template(html, { title });
     }
 });

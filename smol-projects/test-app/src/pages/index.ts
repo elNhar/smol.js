@@ -1,19 +1,12 @@
-import { smolComponent, css, html } from 'smol.js';
+import { smolComponent, html } from 'smol.js';
+import styles from './index.css?inline';
+import template from './index.html?smol';
+import '../components/example-component';
 
-smolComponent({
+export default smolComponent({
   tag: 'app-index',
-  styles: css`
-    :host {
-      display: block;
-      padding: 20px;
-    }
-    h1 { color: #646cff; }
-  `,
+  styles,
   template() {
-    return html`
-      <h1>Home Page</h1>
-      <p>Welcome to the Smol.js app!</p>
-      <a href="/about">Go to About</a>
-    `;
+    return template(html);
   }
 });

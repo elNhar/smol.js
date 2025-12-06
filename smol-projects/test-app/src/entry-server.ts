@@ -1,14 +1,22 @@
+
 import { matchRoute } from './router';
+import { renderComponentToString } from 'smol.js';
 
 export async function render(url: string) {
     const route = matchRoute(url);
-    if (route) {
-        await route.load();
-    }
+    let content = '<h1>404 Not Found</h1>';
 
-    // Simple 404 handling if no route found (could be better)
-    const componentTag = route ? route.component : 'div';
-    const content = route ? `<${componentTag}></${componentTag}>` : '<h1>404 Not Found</h1>';
+    if (route) {
+        const module = await route.load();
+        const ComponentClass = module.default;
+
+        if (ComponentClass) {
+            content = renderComponentToString(ComponentClass);
+        } else {
+            // Fallback if no default export or class found
+            content = `<${route.component}></${route.component}>`;
+        }
+    }
 
     // This would be replaced with your actual app rendering logic
     const appHtml = `
