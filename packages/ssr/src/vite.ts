@@ -33,7 +33,7 @@ export function smolVite(options: SSRRenderOptions = {}): Plugin {
       enforce: 'pre',
       transform(html) {
         if (!ssr) return html;
-        
+
         // Add SSR placeholders
         return html
           .replace('<!--ssr-outlet-->', '')

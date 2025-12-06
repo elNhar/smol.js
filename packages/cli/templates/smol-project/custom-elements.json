@@ -1,0 +1,18 @@
+{
+    "version": 2,
+    "tags": [
+        {
+            "name": "example-component",
+            "description": "An example web component",
+            "attributes": [
+                {
+                    "name": "title",
+                    "description": "The component title",
+                    "type": "string"
+                }
+            ],
+            "properties": [],
+            "events": []
+        }
+    ]
+}

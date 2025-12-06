@@ -62,7 +62,7 @@ export function smolTemplatePlugin(): Plugin {
                     .replace(/`/g, '\\`');   // Escape backticks
 
                 // Create a function that returns html`...`
-                const code = `export default (html) => html\`${escapedContent}\`;`;
+                const code = `export default function(html) { return html\`${escapedContent}\`; }`;
 
                 return {
                     code,
