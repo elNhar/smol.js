@@ -1,6 +1,6 @@
 import type { Plugin } from 'vite';
 import { readFileSync } from 'node:fs';
-import { resolve as pathResolve, dirname } from 'node:path';
+
 
 /**
  * Vite plugin for importing HTML templates as smol.js template functions
@@ -25,15 +25,15 @@ export function smolTemplatePlugin(): Plugin {
         name: 'vite-plugin-smol-templates',
         enforce: 'pre',
 
-        resolveId(id: string, importer?: string) {
+        async resolveId(id: string, importer?: string) {
             // Only handle .html files with ?smol query
             if (id.includes('.html?smol')) {
-                // If it's a relative import, resolve it relative to the importer
-                if (id.startsWith('.') && importer) {
-                    const absolutePath = pathResolve(dirname(importer), id.replace('?smol', ''));
-                    return absolutePath + '?smol';
+                const cleanId = id.replace('?smol', '');
+                const resolved = await this.resolve(cleanId, importer);
+
+                if (resolved) {
+                    return resolved.id + '?smol';
                 }
-                return id;
             }
             return null;
         },
@@ -61,8 +61,16 @@ export function smolTemplatePlugin(): Plugin {
                     .replace(/\\/g, '\\\\')  // Escape backslashes
                     .replace(/`/g, '\\`');   // Escape backticks
 
-                // Create a function that returns html`...`
-                const code = `export default function(html) { return html\`${escapedContent}\`; }`;
+                // Create a function that uses 'with' to execute the template literal
+                // We use new Function to avoid strict mode limitations on 'with'
+                // and to allow dynamic variable resolution from the context
+                const templateBody = `with(context) { return html\`${escapedContent}\`; }`;
+
+                const code = `
+                    export default function(html, context = {}) {
+                        return new Function('html', 'context', ${JSON.stringify(templateBody)})(html, context);
+                    }
+                `;
 
                 return {
                     code,

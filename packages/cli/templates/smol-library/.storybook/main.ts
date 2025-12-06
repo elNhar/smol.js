@@ -1,19 +1,13 @@
 import type { StorybookConfig } from '@storybook/web-components-vite';
 
 const config: StorybookConfig = {
-  stories: ['../src/**/*.stories.ts'],
-  addons: [
-    '@storybook/addon-essentials',
-    '@storybook/addon-links',
-    '@storybook/addon-a11y',
-  ],
+  stories: ['../src/**/*.stories.@(js|jsx|ts|tsx)'],
+  addons: ['@storybook/addon-essentials'],
   framework: {
     name: '@storybook/web-components-vite',
-    options: {},
+    options: {}
   },
-  docs: {
-    autodocs: 'tag',
-  },
+  docs: { autodocs: 'tag' }
 };
 
 export default config;

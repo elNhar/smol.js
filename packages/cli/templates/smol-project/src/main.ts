@@ -1,3 +1,4 @@
+
 import { matchRoute } from './router';
 
 // Hydrate / Initialize Client
@@ -23,19 +24,21 @@ async function init() {
     });
 
     // Initial hydration
-    await navigate(window.location.pathname);
+    // Don't replace content if it's already rendered (Simple check)
+    const app = document.getElementById('app');
+    const hasContent = app?.innerHTML.trim().length ?? 0 > 0;
+    await navigate(window.location.pathname, !hasContent);
 }
 
-async function navigate(url: string) {
+async function navigate(url: string, replace = true) {
     const route = matchRoute(url);
     if (route) {
         await route.load();
         const app = document.getElementById('app');
-        if (app) {
+        if (app && replace) {
             app.innerHTML = `<${route.component}></${route.component}>`;
         }
     }
 }
-
 
 init();

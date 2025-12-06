@@ -1,18 +1,11 @@
-import { smolComponent, css, html } from 'smol.js';
+import { smolComponent, html } from 'smol.js';
+import styles from './about.css?inline';
+import template from './about.html?smol';
 
-smolComponent({
+export default smolComponent({
   tag: 'app-about',
-  styles: css`
-    :host {
-      display: block;
-      padding: 20px;
-    }
-  `,
+  styles,
   template() {
-    return html`
-      <h1>About Page</h1>
-      <p>This is a separate route managed by client-side navigation.</p>
-      <a href="/">Back to Home</a>
-    `;
+    return template(html);
   }
 });

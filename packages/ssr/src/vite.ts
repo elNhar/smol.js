@@ -30,8 +30,8 @@ export function smolVite(options: SSRRenderOptions = {}): Plugin {
       };
     },
     transformIndexHtml: {
-      enforce: 'pre',
-      transform(html) {
+      order: 'pre',
+      handler(html) {
         if (!ssr) return html;
 
         // Add SSR placeholders

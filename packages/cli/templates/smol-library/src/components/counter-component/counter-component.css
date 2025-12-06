@@ -1,0 +1,71 @@
+:host {
+    display: block;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+.counter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+    margin: 0;
+    font-size: 4rem;
+    font-weight: 700;
+    color: white;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.buttons {
+    display: flex;
+    gap: 0.75rem;
+}
+
+button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-increment {
+    background: #48bb78;
+    color: white;
+}
+
+.btn-increment:hover {
+    background: #38a169;
+}
+
+.btn-decrement {
+    background: #f56565;
+    color: white;
+}
+
+.btn-decrement:hover {
+    background: #e53e3e;
+}
+
+.btn-reset {
+    background: #edf2f7;
+    color: #2d3748;
+}
+
+.btn-reset:hover {
+    background: #e2e8f0;
+}
