@@ -9,10 +9,17 @@
         "skipLibCheck": true,
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
+        "types": ["vite/client"],
         "lib": [
             "ES2020",
             "DOM",
             "DOM.Iterable"
         ]
-    }
+    },
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.d.ts",
+        "examples/**/*.ts",
+        "examples/**/*.d.ts"
+    ]
 }

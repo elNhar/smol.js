@@ -1,0 +1,24 @@
+{
+  "name": "my-smol-components",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "smol.js": "0.1.0"
+  },
+  "devDependencies": {
+    "@storybook/web-components": "^7.4.0",
+    "@storybook/web-components-vite": "^7.4.0",
+    "storybook": "^7.4.0",
+    "typescript": "^5.0.0",
+    "vite": "^5.0.0",
+    "vite-plugin-dts": "^3.6.0"
+  }
+}

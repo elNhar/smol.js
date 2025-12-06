@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import { resolve } from 'path';
+import { smolTemplatePlugin } from './src/vite';
 
 export default defineConfig({
     build: {
@@ -8,7 +9,7 @@ export default defineConfig({
             entry: resolve(__dirname, 'src/index.ts'),
             name: 'Smol',
             formats: ['es', 'umd'],
-            fileName: (format) => format === 'es' ? 'smol.js' : 'smol.umd.js'
+            fileName: (format: string) => format === 'es' ? 'smol.js' : 'smol.umd.js'
         },
         rollupOptions: {
             external: [],
@@ -30,6 +31,7 @@ export default defineConfig({
         }
     },
     plugins: [
+        smolTemplatePlugin(),
         dts({
             rollupTypes: true,
             insertTypesEntry: true

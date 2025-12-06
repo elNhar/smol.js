@@ -38,32 +38,40 @@ npm run dev
 
 ### Create a Component
 
-```typescript
-import { smolComponent, html, css, smolSignal } from 'smol.js';
+**my-counter.html**:
+```html
+<button @click=${() => this.count.value++}>
+  Count: ${this.count.value}
+</button>
+```
 
-export const MyCounter = smolComponent({
+**my-counter.css**:
+```css
+button {
+  padding: 0.75rem 1.5rem;
+  background: #3b82f6;
+  color: white;
+}
+```
+
+**my-counter.ts**:
+```typescript
+import { smolComponent, html, smolSignal } from 'smol.js';
+import styles from './my-counter.css?inline';
+import template from './my-counter.html?smol';
+
+smolComponent({
   tag: 'my-counter',
   
-  styles: css`
-    button {
-      padding: 0.75rem 1.5rem;
-      background: #3b82f6;
-      color: white;
-    }
-  `,
+  styles,
   
   connected() {
     (this as any).count = smolSignal(0);
     (this as any).count.subscribe(() => this.render());
   },
   
-  template() {
-    const count = (this as any).count;
-    return html`
-      <button @click=${() => count.value++}>
-        Count: ${count.value}
-      </button>
-    `;
+  template(ctx) {
+    return template(html);
   }
 });
 ```

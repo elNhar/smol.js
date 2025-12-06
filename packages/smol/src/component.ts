@@ -9,20 +9,24 @@ import { render, renderToString, isTemplateResult } from './html';
  * 
  * @example
  * ```ts
- * const MyButton = smolComponent({
+ * // my-button.html
+ * // <button><slot>Button</slot></button>
+ * 
+ * // my-button.css
+ * // button { padding: 0.5rem 1rem; }
+ * 
+ * import { smolComponent, html } from 'smol.js';
+ * import styles from './my-button.css?inline';
+ * import template from './my-button.html?smol';
+ * 
+ * smolComponent({
  *   tag: 'my-button',
  *   observedAttributes: ['variant'],
  *   
- *   styles: css`
- *     button { padding: 0.5rem 1rem; }
- *   `,
+ *   styles,
  *   
  *   template(ctx) {
- *     return html`
- *       <button>
- *         <slot></slot>
- *       </button>
- *     `;
+ *     return template(html);
  *   }
  * });
  * ```

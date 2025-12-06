@@ -1,0 +1,13 @@
+<div class="counter">
+  <h2>Counter Component</h2>
+  <p>Current count: ${this.count.value}</p>
+  <button @click=${() => this.count.value++}>
+    Increment
+  </button>
+  <button @click=${() => this.count.value--}>
+    Decrement
+  </button>
+  <button @click=${() => this.count.value = 0}>
+    Reset
+  </button>
+</div>

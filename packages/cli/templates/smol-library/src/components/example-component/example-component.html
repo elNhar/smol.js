@@ -1,0 +1,12 @@
+<!-- Example Component Template -->
+<div class="example-component">
+  <div class="header">
+    <h2>${ctx.element.getAttribute('title') || 'Default Title'}</h2>
+    ${ctx.element.getAttribute('variant') === 'fancy' ? 
+      '<span class="badge">Fancy!</span>' : ''
+    }
+  </div>
+  <div class="content">
+    <slot></slot>
+  </div>
+</div>
