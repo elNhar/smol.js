@@ -8,7 +8,7 @@ declare module '*.css?inline' {
 
 // Declare HTML modules with ?smol suffix (custom loader)
 declare module '*.html?smol' {
-    const template: (html: any) => any;
+    const template: (html: any, context?: any) => any;
     export default template;
 }
 

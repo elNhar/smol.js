@@ -12,7 +12,7 @@ export default defineConfig({
       entry: {
         index: resolve(__dirname, 'src/index.ts'),
         ...Object.fromEntries(
-          components.map((file: any) => [
+          components.map(file => [
             file.replace(/^src\/components\//, '').replace(/\.ts$/, ''),
             resolve(__dirname, file)
           ])

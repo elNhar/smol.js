@@ -8,32 +8,21 @@
             "DOM",
             "DOM.Iterable"
         ],
-        "types": [
-            "vite/client"
-        ],
         "skipLibCheck": true,
         "moduleResolution": "bundler",
         "allowImportingTsExtensions": true,
         "resolveJsonModule": true,
         "isolatedModules": true,
-        "noEmit": true,
+        "declaration": true,
+        "declarationMap": true,
+        "outDir": "./dist",
+        "emitDeclarationOnly": true,
         "strict": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
-        "noFallthroughCasesInSwitch": true,
-        "baseUrl": ".",
-        "paths": {
-            "smol.js": [
-                "../../../../packages/smol"
-            ]
-        }
+        "noFallthroughCasesInSwitch": true
     },
     "include": [
         "src"
-    ],
-    "references": [
-        {
-            "path": "./tsconfig.node.json"
-        }
     ]
 }

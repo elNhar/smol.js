@@ -45,6 +45,6 @@ smolComponent({
     },
 
     template(ctx) {
-        return template.call(this, html);
+        return template(html, this);
     }
 });

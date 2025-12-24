@@ -31,8 +31,6 @@
     "typescript": "^5.0.0",
     "vite": "^5.0.0",
     "vite-plugin-dts": "^3.6.0",
-    "glob": "^10.3.10",
-    "@types/glob": "^8.1.0",
-    "@types/node": "^20.0.0"
+    "glob": "^10.3.10"
   }
 }
