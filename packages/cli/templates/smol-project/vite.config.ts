@@ -2,12 +2,12 @@ import { defineConfig } from 'vite';
 import { smolVite } from '@smol/ssr/vite';
 import { smolTemplatePlugin } from 'smol.js/vite';
 
-export default defineConfig({
+export default defineConfig((env) => ({
     plugins: [
         smolTemplatePlugin(),
         smolVite({
-            ssr: true,
-            minify: false,
+            ssr: !!env.isSsrBuild,
+            minify: 'esbuild',
         })
     ],
     server: {
@@ -17,5 +17,8 @@ export default defineConfig({
     build: {
         target: 'esnext',
         minify: 'esbuild'
+    },
+    ssr: {
+        noExternal: ['smol.js', '@smol/ssr']
     }
-});
+}));
