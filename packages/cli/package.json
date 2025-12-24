@@ -1,6 +1,6 @@
 {
     "name": "smol-cli",
-    "version": "0.1.0",
+    "version": "0.1.2",
     "description": "CLI and framework tools for smol.js",
     "type": "module",
     "bin": {

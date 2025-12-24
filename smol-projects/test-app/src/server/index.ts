@@ -1,7 +1,7 @@
 import express from 'express';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-import { renderToString } from '@smol/ssr';
+import { renderToString } from 'smol-ssr';
 import { readFileSync } from 'fs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));

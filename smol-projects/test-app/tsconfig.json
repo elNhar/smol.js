@@ -20,8 +20,12 @@
         "strict": true,
         "baseUrl": ".",
         "paths": {
-            "@smol/ssr/*": ["../../../packages/ssr/src/*"],
-            "smol.js": ["../../../packages/smol/src/index.ts"]
+            "smol-ssr/*": [
+                "../../../packages/ssr/src/*"
+            ],
+            "smol.js": [
+                "../../../packages/smol/src/index.ts"
+            ]
         },
         "noUnusedLocals": true,
         "noUnusedParameters": true,

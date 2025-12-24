@@ -23,7 +23,7 @@
         "noFallthroughCasesInSwitch": true,
         "baseUrl": ".",
         "paths": {
-            "@smol/ssr": [
+            "smol-ssr": [
                 "../../../../packages/ssr"
             ],
             "smol.js": [

@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
-import { smolVite } from '@smol/ssr/vite';
+import { smolVite } from 'smol-ssr/vite';
 import { smolTemplatePlugin } from 'smol.js/vite';
 
 export default defineConfig((env) => ({
@@ -19,6 +19,6 @@ export default defineConfig((env) => ({
         minify: 'esbuild'
     },
     ssr: {
-        noExternal: ['smol.js', '@smol/ssr']
+        noExternal: ['smol.js', 'smol-ssr']
     }
 }));

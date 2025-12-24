@@ -1,4 +1,4 @@
-# @smol/ssr
+# smol-ssr
 
 > Server-Side Rendering (SSR) for smol.js components.
 
@@ -14,7 +14,7 @@ This package provides the necessary utilities to render smol.js components on th
 ## Installation
 
 ```bash
-npm install @smol/ssr
+npm install smol-ssr
 ```
 
 ## Usage
@@ -25,7 +25,7 @@ Add the Vite plugin to your `vite.config.ts`. It is recommended to use specific 
 
 ```typescript
 import { defineConfig } from 'vite';
-import { smolVite } from '@smol/ssr/vite';
+import { smolVite } from 'smol-ssr/vite';
 
 export default defineConfig((env) => ({
   plugins: [
