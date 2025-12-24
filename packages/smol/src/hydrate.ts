@@ -100,17 +100,3 @@ export function hydrateAll(): void {
         }
     });
 }
-
-/**
- * Auto-hydrate on DOM content loaded
- */
-if (typeof window !== 'undefined') {
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-            hydrateAll();
-        });
-    } else {
-        // DOM already loaded
-        hydrateAll();
-    }
-}

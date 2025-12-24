@@ -8,6 +8,7 @@ export function smolVite(options: SSRRenderOptions = {}): PluginOption {
     name: 'vite-plugin-smol-ssr',
     enforce: 'pre',
     config() {
+      if (!ssr) return;
       return {
         build: {
           ssr: true,

@@ -14,7 +14,7 @@ export interface SSRResult {
 
 export interface SSRRenderOptions {
   ssr?: boolean;
-  minify?: boolean;
+  minify?: boolean | 'terser' | 'esbuild';
 }
 
 declare global {
