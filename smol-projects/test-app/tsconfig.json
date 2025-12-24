@@ -18,18 +18,14 @@
         "isolatedModules": true,
         "noEmit": true,
         "strict": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "noFallthroughCasesInSwitch": true,
         "baseUrl": ".",
         "paths": {
-            "@smol/ssr": [
-                "../../../../packages/ssr"
-            ],
-            "smol.js": [
-                "../../../../packages/smol"
-            ]
-        }
+            "@smol/ssr/*": ["../../../packages/ssr/src/*"],
+            "smol.js": ["../../../packages/smol/src/index.ts"]
+        },
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noFallthroughCasesInSwitch": true
     },
     "include": [
         "src"

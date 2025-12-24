@@ -24,7 +24,7 @@
   "dependencies": {
     "@types/node": "^20.0.0",
     "jsdom": "^22.0.0",
-    "smol.js": "^0.1.0"
+    "smol.js": "file:../../smol"
   },
   "devDependencies": {
     "@types/express": "^4.17.0",

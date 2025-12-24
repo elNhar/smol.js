@@ -1,3 +1,5 @@
+WIP do not use for any production work
+
 # smol.js
 
 > Minimal Web Component Framework with SSR - Zero Dependencies

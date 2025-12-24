@@ -21,7 +21,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "smol.js": "file:../smol.js/packages/smol"
+    "smol.js": "file:../../packages/smol"
   },
   "devDependencies": {
     "@storybook/web-components": "^8.0.0",

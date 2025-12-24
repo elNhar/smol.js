@@ -7,7 +7,7 @@ export default defineConfig({
         smolTemplatePlugin(),
         smolVite({
             ssr: true,
-            minify: false,
+            minify: 'esbuild',
         })
     ],
     server: {
@@ -16,6 +16,21 @@ export default defineConfig({
     },
     build: {
         target: 'esnext',
-        minify: 'esbuild'
+        minify: 'esbuild',
+        ssr: {
+            noExternal: ['smol.js', '@smol/ssr']
+        },
+        rollupOptions: {
+            input: 'src/entry-server.ts',
+            output: {
+                format: 'esm',
+                entryFileNames: 'assets/[name].js',
+                chunkFileNames: 'assets/[name].js',
+                assetFileNames: 'assets/[name][extname]'
+            }
+        }
+    },
+    ssr: {
+        noExternal: ['smol.js', '@smol/ssr']
     }
 });

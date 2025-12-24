@@ -1,7 +1,7 @@
-import type { Plugin } from 'vite';
+import type { PluginOption } from 'vite';
 import { SSRRenderOptions } from './types';
 
-export function smolVite(options: SSRRenderOptions = {}): Plugin {
+export function smolVite(options: SSRRenderOptions = {}): PluginOption {
   const { ssr = true, minify = false } = options;
 
   return {
