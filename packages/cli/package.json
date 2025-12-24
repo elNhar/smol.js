@@ -1,5 +1,5 @@
 {
-    "name": "@smol/cli",
+    "name": "smol-cli",
     "version": "0.1.0",
     "description": "CLI and framework tools for smol.js",
     "type": "module",
@@ -24,7 +24,6 @@
         "fs-extra": "^11.0.0",
         "inquirer": "^9.0.0",
         "ora": "^7.0.0",
-        "smol.js": "0.1.0",
         "express": "^4.18.0",
         "vite": "^5.0.0"
     },
@@ -39,5 +38,8 @@
         "ssr",
         "web-components"
     ],
-    "license": "MIT"
+    "license": "MIT",
+    "publishConfig": {
+        "access": "public"
+    }
 }

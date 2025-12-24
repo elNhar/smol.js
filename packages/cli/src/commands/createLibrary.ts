@@ -38,7 +38,7 @@ export async function createLibrary(name: string) {
       'build-storybook': 'storybook build'
     },
     dependencies: {
-      'smol.js': 'file:../smol.js/packages/smol'
+      'smol.js': '^0.1.0'
     },
     devDependencies: {
       '@storybook/web-components': '^8.0.0',
