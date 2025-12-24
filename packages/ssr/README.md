@@ -1,14 +1,15 @@
 # @smol/ssr
 
-Server-Side Rendering (SSR) for smol.js components. This package provides the necessary utilities to render smol.js components on the server and hydrate them on the client.
+> Server-Side Rendering (SSR) for smol.js components.
+
+This package provides the necessary utilities to render smol.js components on the server and hydrate them on the client.
 
 ## Features
 
-- Server-side rendering of smol.js components
-- Seamless hydration on the client
-- Vite plugin for development and production builds
-- Support for CSS modules and styles
-- Integration with Express.js
+- ✅ **Server-side rendering** of smol.js components
+- ✅ **Seamless hydration** on the client
+- ✅ **Vite plugin** for development and production builds
+- ✅ **CSS Modules** support via Vite
 
 ## Installation
 
@@ -20,127 +21,97 @@ npm install @smol/ssr
 
 ### Vite Configuration
 
-Add the Vite plugin to your `vite.config.ts`:
+Add the Vite plugin to your `vite.config.ts`. It is recommended to use specific build flags:
 
 ```typescript
 import { defineConfig } from 'vite';
 import { smolVite } from '@smol/ssr/vite';
 
-export default defineConfig({
+export default defineConfig((env) => ({
   plugins: [
     smolVite({
-      ssr: true,
-      minify: false,
+      // Enable SSR optimizations only for SSR builds
+      ssr: !!env.isSsrBuild,
+      // Use 'esbuild' or 'terser' for minification
+      minify: 'esbuild',
     })
-  ]
-});
+  ],
+  // ...
+}));
 ```
 
-### Server-Side Rendering
+### Server-Side Rendering (Production)
 
-Create an Express server to handle SSR:
+Your production server (e.g., Express) should load the server entry and render the requested URL.
 
 ```typescript
 import express from 'express';
-import { renderToString } from '@smol/ssr';
 import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+import path from 'path';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+// Load the compiled server entry
+// Note: In production this will be built to dist/ssr/assets/entry-server.js
+const { render } = await import('./dist/ssr/assets/entry-server.js');
+
 const app = express();
 
-// Serve static files
-app.use('/assets', express.static(join(__dirname, 'dist/client/assets')));
+app.use(express.static('dist/client'));
 
-// Handle all routes
 app.get('*', async (req, res) => {
   try {
-    const template = await fs.readFile(join(__dirname, 'dist/client/index.html'), 'utf-8');
+    const url = req.originalUrl;
     
-    const { html, head } = await renderToString({
-      url: req.url,
-      template,
-      entry: './dist/server/entry-server.js'
-    });
+    // Render the app
+    const { html: appHtml, head } = await render(url);
 
-    const finalHtml = template
-      .replace('<!--ssr-outlet-->', html)
-      .replace('<!--head-outlet-->', head || '');
-
-    res.setHeader('Content-Type', 'text/html');
-    res.end(finalHtml);
-  } catch (error) {
-    console.error('SSR Error:', error);
-    res.status(500).send('Server Error');
+    // Read index.html template
+    // Inject rendered content into placeholders
+    // ... (see full example in CLI templates)
+    
+    res.status(200).set({ 'Content-Type': 'text/html' }).end(finalHtml);
+  } catch (e) {
+    // ...
   }
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
 });
 ```
 
 ### Creating Components
 
-Create your components as usual with smol.js. The SSR package will automatically handle server-side rendering:
+Create your components as usual with `smol.js`. The SSR package automatically handles rendering their template results to string.
 
-**my-component.html**:
-```html
-<div class="container">
-  <h1>${title}</h1>
-  <slot></slot>
-</div>
-```
-
-**my-component.ts**:
 ```typescript
-import { smolComponent, html } from 'smol.js';
-import styles from './my-component.css?inline';
-import template from './my-component.html?smol';
-
 smolComponent({
-  tag: 'my-component',
-  
-  observedAttributes: ['title'],
-  
-  styles,
-  
+  tag: 'my-meta',
   template(ctx) {
-    const title = ctx.element.getAttribute('title') || 'Default Title';
-    return template(html);
+    return html`
+      <meta name="description" content="Server rendered meta tag">
+    `;
   }
 });
 ```
 
 ## API Reference
 
-### `renderToString(options: SSRContext): Promise<SSRResult>`
-
-Renders a smol.js component to a string on the server.
-
-#### Parameters
-
-- `options`: Object containing:
-  - `url`: The requested URL
-  - `template`: The HTML template string
-  - `entry`: Path to the server entry file
-
-#### Returns
-
-A promise that resolves to an object containing:
-- `html`: The rendered HTML string
-- `head`: Any head content to be injected
-- `state`: Application state (if any)
-
 ### `smolVite(options: SSRRenderOptions): Plugin`
 
-Vite plugin for SSR support.
+Vite plugin that configures the build for SSR.
 
 #### Options
 
-- `ssr`: Enable/disable SSR (default: `true`)
-- `minify`: Enable/disable minification (default: `false`)
+- `ssr` (boolean): Enable SSR optimizations. Default: `true` (if not specified, force enables SSR build config).
+- `minify` (boolean | 'terser' | 'esbuild'): Minification strategy for server bundle.
+    - `false`: Disable minification (default)
+    - `'terser'`: Use Terser (best compression)
+    - `'esbuild'`: Use esbuild (fastest)
+
+### `renderToString(options: SSRContext): Promise<SSRResult>`
+
+Referece implementation for rendering an app.
+
+#### Returns
+- `html`: Rendered body HTML
+- `head`: Rendered head elements (meta, title, styles)
+- `state`: Serialized state for hydration
 
 ## License
 

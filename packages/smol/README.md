@@ -2,6 +2,15 @@
 
 > Minimal Web Component library with zero dependencies
 
+## Features
+
+- ✅ **Zero dependencies** - Only ~3KB gzipped
+- ✅ **Standards-based** - Uses native Web Components
+- ✅ **TypeScript-first** - Full type safety
+- ✅ **Reactivity** - Fine-grained signals and state
+- ✅ **SSR ready** - Server-side rendering support
+- ✅ **Framework-agnostic** - Works with anything
+
 ## Installation
 
 ```bash
@@ -10,145 +19,186 @@ npm install smol.js
 
 ## Quick Start
 
-**my-button.html**:
-```html
-<button @click=${() => ctx.emit('click')}>
-  <slot>Button</slot>
-</button>
-```
+### Basic Component
 
-**my-button.css**:
-```css
-button {
-  padding: 0.5rem 1rem;
-  background: var(--button-bg, #3b82f6);
-  color: white;
-  border: none;
-  border-radius: 0.25rem;
-  cursor: pointer;
-}
-```
-
-**my-button.ts**:
 ```typescript
-import { smolComponent, html } from 'smol.js';
-import styles from './my-button.css?inline';
-import template from './my-button.html?smol';
+import { smolComponent, html, smolSignal } from 'smol.js';
 
 smolComponent({
-  tag: 'my-button',
-  observedAttributes: ['variant'],
+  tag: 'my-counter',
   
-  styles,
+  // Scoped CSS
+  styles: css`
+    button { padding: 0.5rem; }
+  `,
   
+  // Component Logic
+  connected() {
+    this.count = smolSignal(0);
+  },
+  
+  // Template with automated reactivity
   template(ctx) {
-    return template(html);
+    const count = this.count.value;
+    
+    return html`
+      <button @click=${() => this.count.value++}>
+        Count: ${count}
+      </button>
+    `;
   }
 });
 ```
 
-## Features
+## Core Concepts
 
-- ✅ **Zero dependencies** - Only ~3KB gzipped
-- ✅ **Standards-based** - Uses native Web Components
-- ✅ **TypeScript-first** - Full type safety
-- ✅ **SSR ready** - Server-side rendering support
-- ✅ **Framework-agnostic** - Works with React, Vue, Angular, etc.
-- ✅ **Tree-shakable** - Import only what you need
-- ✅ **External templates** - Write HTML in separate files
+### Components (`smolComponent`)
 
-## Using External HTML Templates
-
-You can keep your component templates in separate `.html` files for better organization and IDE support.
-
-### Setup
-
-Add the Vite plugin to your `vite.config.ts`:
+Creates a standard native Web Component.
 
 ```typescript
-import { defineConfig } from 'vite';
-import { smolTemplatePlugin } from 'smol.js/vite';
-
-export default defineConfig({
-  plugins: [
-    smolTemplatePlugin()
-  ]
+smolComponent({
+  tag: 'user-card',
+  
+  // Define attributes to watch for changes
+  observedAttributes: ['username'],
+  
+  // Lifecycle methods
+  connected() { console.log('Mounted'); },
+  disconnected() { console.log('Unmounted'); },
+  
+  // React to attribute changes
+  attributeChanged(name, oldVal, newVal) {
+    // ...
+  },
+  
+  // Render template
+  template(ctx) {
+    return html`<div>Hello ${ctx.element.getAttribute('username')}</div>`;
+  }
 });
 ```
 
-### Create a Template File
+### Reactivity (`smolSignal`, `computed`, `effect`)
 
-**my-component.html**:
+Fine-grained reactivity system.
+
+```typescript
+// Create a signal
+const count = smolSignal(0);
+
+// Create a computed value (updates automatically)
+const double = computed(() => count.value * 2);
+
+// Run a side effect when signals change
+effect(() => {
+  console.log(`Count is ${count.value}, double is ${double.value}`);
+});
+
+count.value++; // Logs: "Count is 1, double is 2"
+```
+
+### Services (`smolService`)
+
+Singleton services for global state and logic.
+
+```typescript
+// Define service
+export const authService = smolService({
+  name: 'auth',
+  factory: () => {
+    const user = smolSignal(null);
+    return {
+      user,
+      login: (name) => user.value = name
+    };
+  }
+});
+
+// Use in component
+import { authService } from './auth.service';
+
+smolComponent({
+  // ...
+  template(ctx) {
+    const user = authService.user.value;
+    return html`
+      <div>User: ${user}</div>
+      <button @click=${() => authService.login('Alice')}>Login</button>
+    `;
+  }
+});
+```
+
+## Templates
+
+### External Templates (`.html?smol`)
+
+You can separate your HTML and CSS into files using the Vite plugin.
+
+**vite.config.ts**:
+```typescript
+import { smolTemplatePlugin } from 'smol.js/vite';
+export default {
+  plugins: [smolTemplatePlugin()]
+};
+```
+
+**my-cmp.ts**:
+```typescript
+import template from './my-cmp.html?smol';
+import styles from './my-cmp.css?inline';
+
+smolComponent({
+  tag: 'my-cmp',
+  styles,
+  template(ctx) {
+    // Variables used in HTML must be available in context or locals
+    return template(html, this); 
+  }
+});
+```
+
+**my-cmp.html**:
 ```html
-<div class="container">
-  <h1>${title}</h1>
-  <button @click=${() => count.value++}>
-    Count: ${count.value}
-  </button>
+<div>
+  <!-- 'count' refers to this.count from the component instance -->
+  Count: ${count.value}
 </div>
 ```
 
-**my-component.css**:
-```css
-.container {
-  padding: 1rem;
-}
+## Hydration
+
+For Client-Side Hydration of SSR content:
+
+**main.ts**:
+```typescript
+// Initializes hydration for all components
+import 'smol.js/src/hydrate-client'; 
 ```
 
-### Import and Use
-
-**my-component.ts**:
+Or manually:
 ```typescript
-import { smolComponent, html, smolSignal } from 'smol.js';
-import styles from './my-component.css?inline';
-import template from './my-component.html?smol';
+import { hydrateAll } from 'smol.js';
 
-smolComponent({
-  tag: 'my-component',
-  
-  styles,
-  
-  connected() {
-    this.count = smolSignal(0);
-    this.count.subscribe(() => this.render());
-  },
-  
-  template(ctx) {
-    const title = 'Hello World';
-    const count = this.count;
-    return template(html);
-  }
+document.addEventListener('DOMContentLoaded', () => {
+  hydrateAll();
 });
 ```
 
-**Note**: The `?smol` query parameter is required for the plugin to process the HTML file.
+## API Reference
 
+### `html`
+Tagged template literal for defining HTML structure.
 
-## API
+### `css`
+Tagged template literal for defining styles.
 
-### `smolComponent(config)`
+### `smolState(obj)`
+Creates a deeply reactive object proxy.
 
-Creates a custom Web Component.
-
-### `smolSignal(value)`
-
-Creates a reactive signal.
-
-### `smolState(object)`
-
-Creates a reactive state object.
-
-### `smolService(config)`
-
-Creates a singleton service.
-
-### `html``
-
-Tagged template for HTML.
-
-### `css``
-
-Tagged template for CSS.
+### `inject(service)`
+Retrieves a service instance (mostly used internally or for testing).
 
 ## License
 
