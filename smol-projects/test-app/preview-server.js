@@ -22,15 +22,15 @@ global.Comment = win.Comment;
 
 const app = express();
 
-// Serve static files from dist/client
-app.use(express.static('dist/client', { index: false }));
+// Serve static files from dist
+app.use(express.static('dist', { index: false }));
 
 // Import the built server entry
 const { render } = await import('./dist/ssr/assets/entry-server.js');
 
 // Read the HTML template
 const template = fs.readFileSync(
-    path.resolve(__dirname, 'dist/client/index.html'),
+    path.resolve(__dirname, 'dist/index.html'),
     'utf-8'
 );
 
@@ -39,7 +39,7 @@ app.get('*', async (req, res) => {
     try {
         const url = req.originalUrl;
         const { html: appHtml, head } = await render(url);
-        
+
         const html = template
             .replace(`<!--ssr-outlet-->`, appHtml)
             .replace(`<!--head-outlet-->`, head || '');

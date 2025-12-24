@@ -9,9 +9,9 @@
         "preview:no-ssr": "vite preview --port 3000"
     },
     "dependencies": {
-        "smol.js": "file:../../../smol",
+        "smol.js": "file:../../packages/smol",
         "express": "^4.18.0",
-        "@smol/ssr": "file:../../../ssr",
+        "@smol/ssr": "file:../../packages/ssr",
         "jsdom": "^24.0.0"
     },
     "devDependencies": {

@@ -2,11 +2,11 @@ import { defineConfig } from 'vite';
 import { smolVite } from '@smol/ssr/vite';
 import { smolTemplatePlugin } from 'smol.js/vite';
 
-export default defineConfig({
+export default defineConfig((env) => ({
     plugins: [
         smolTemplatePlugin(),
         smolVite({
-            ssr: true,
+            ssr: !!env.isSsrBuild,
             minify: 'esbuild',
         })
     ],
@@ -16,21 +16,9 @@ export default defineConfig({
     },
     build: {
         target: 'esnext',
-        minify: 'esbuild',
-        ssr: {
-            noExternal: ['smol.js', '@smol/ssr']
-        },
-        rollupOptions: {
-            input: 'src/entry-server.ts',
-            output: {
-                format: 'esm',
-                entryFileNames: 'assets/[name].js',
-                chunkFileNames: 'assets/[name].js',
-                assetFileNames: 'assets/[name][extname]'
-            }
-        }
+        minify: 'esbuild'
     },
     ssr: {
         noExternal: ['smol.js', '@smol/ssr']
     }
-});
+}));
